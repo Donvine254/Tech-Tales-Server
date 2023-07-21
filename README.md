@@ -4,7 +4,7 @@ This project is a simple school blog for software developers students and senior
 
 # **Front-end Tech-Tales Interface**
 
-You can use this api in with the front-end tech-tales available here (link to repo)
+You can use this api in with the front-end tech-tales available here [see repo](https://github.com/Donvine254/Tech-Tales-Client)
 
 # **Technologies Used in the API**
 
@@ -33,17 +33,19 @@ shotgun or rake server
 # Relationships within Database
 ## User
 * has_many :comments
-* has_many :blogs ,through :comments
-## Author
-* has_many :blogs
-* has_many :comments
+* has_many :authored_blogs, class_name: 'Blog', foreign_key: 'user_id'
+* has_many :favorite_blogs, through: :favorites, source: :blog
 ## Blog
-* belongs_to :author
+* belongs_to :author, class_name: 'User'
 * has_many :comments
+* has_many :favorites
 ## Comments
 * belongs_to :author
 * belongs_to :user
 * belongs_to :blog , through :user
+## Favorite
+* belongs_to :user
+* belongs_to :blog
 # Example Calls You Can Make With API
 * **CREATE user, blog and comments**
 * **GET/RETRIEVE all blogs and comments**
@@ -106,5 +108,5 @@ fetch(`https://localhost:9292/blogs/${id}`, {
   .then((data) => console.log(data));
 ```
 # License
-**This project is provided for educational purposes only and is therefore considered free use. The owner grants permission to use, copy, modify and build up this project without any express or implied warranty or liabilities.**
+**This project is provided for educational purposes only and is therefore considered free use. The owner grants permission to use, copy, modify and build upon this project without any express or implied warranty or liabilities.**
 ## Happy Coding
