@@ -57,8 +57,8 @@ class ApplicationController < Sinatra::Base
     blogs_json = blogs.as_json(include: { user: { only: [:id, :username] } }).to_json
   end
   get '/blogs/:id' do
-    blog= blog.find(params[:id])
-    blogs.to_json
+    blog = Blog.find(params[:id])
+    blog.to_json
   end
   get '/blogs/user/:id' do
     user_id = params[:id]
@@ -66,6 +66,19 @@ class ApplicationController < Sinatra::Base
     blogs.each { |blog| blog.user.username.capitalize! }
     blogs_json = blogs.as_json(include: { user: { only: [:id, :username] } }).to_json
   end
+  delete '/blogs/:id' do
+    blog = Blog.find(params[:id])
+    blog.destroy
+    response = { message: 'blog deleted successfully'}
+    response.to_json
+  end
+  patch '/blogs/:id' do
+    blog = Blog.find(params[:id])
+    blog.update(title: params[:title], image: params[:image], body: params[:body])
+    blog.save
+    blog.to_json
+  end
+
   # post '/blogs' do
   #   new_blog= Blog.create(title: params[:title], body: params[:body])
   #   new_blog.to_json
