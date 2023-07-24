@@ -16,7 +16,8 @@ class ApplicationController < Sinatra::Base
     password = params[:password]
     user = User.find_by(email: email, password: password)
     if user
-      response_data = { id: user.id, username: user.username }
+      first_name = user.username.split(' ').first.capitalize
+      response_data = { id: user.id, username: first_name }
       response_data.to_json
     else
       status 404
@@ -39,13 +40,32 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/blogs' do
-    blogs = Blog.all
+    blogs = Blog.all.includes(:user)
+    blogs.each { |blog| blog.user.username.capitalize! }
+    blogs_json = blogs.as_json(include: { user: { only: [:id, :username] } }).to_json
+  end
+  
+  get '/latest' do
+    blogs = Blog.all.includes(:user).order(created_at: :desc)
+    blogs.each { |blog| blog.user.username.capitalize! }
+    blogs_json = blogs.as_json(include: { user: { only: [:id, :username] } }).to_json
+  end
+  
+  get '/featured' do
+    blogs = Blog.all.includes(:user).limit(3)
+    blogs.each { |blog| blog.user.username.capitalize! }
+    blogs_json = blogs.as_json(include: { user: { only: [:id, :username] } }).to_json
+  end
+  get '/blogs/:id' do
+    blog= blog.find(params[:id])
     blogs.to_json
   end
-  # get '/blogs/:id' do
-  #   blog= blog.find(params[:id])
-  #   blog.to_json
-  # end
+  get '/blogs/user/:id' do
+    user_id = params[:id]
+    blogs = Blog.includes(:user).where(user_id: user_id)
+    blogs.each { |blog| blog.user.username.capitalize! }
+    blogs_json = blogs.as_json(include: { user: { only: [:id, :username] } }).to_json
+  end
   # post '/blogs' do
   #   new_blog= Blog.create(title: params[:title], body: params[:body])
   #   new_blog.to_json

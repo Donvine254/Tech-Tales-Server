@@ -35,6 +35,7 @@ gem "sqlite3", "~> 1.4"
 gem "require_all", "~> 3.0"
 #shotgun for running server
 gem 'shotgun', '~> 0.9.2'
+
 # These gems will only be used when we are running the application locally
 group :development do
   gem "pry", "~> 0.14.1"
