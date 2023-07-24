@@ -25,16 +25,17 @@ class ApplicationController < Sinatra::Base
       response_data.to_json
     end
   end
-  #register new user
+  # register new user
   post '/user' do
     user = User.create(username: params[:username], password: params[:password], email: params[:email])
     response = { message: 'user created successfully' }
     response.to_json
   end
 
-  #routes for blogs
+  # routes for blogs
   post '/blogs' do
-    blog = Blog.create_blog(title: params[:title], image: params[:image], body: params[:body], user_id: params[:user_id])
+    blog = Blog.create_blog(title: params[:title], image: params[:image], body: params[:body],
+                            user_id: params[:user_id])
     response = { message: 'blog created successfully' }
     response.to_json
   end
@@ -42,19 +43,19 @@ class ApplicationController < Sinatra::Base
   get '/blogs' do
     blogs = Blog.all.includes(:user)
     blogs.each { |blog| blog.user.username.capitalize! }
-    blogs_json = blogs.as_json(include: { user: { only: [:id, :username] } }).to_json
+    blogs_json = blogs.as_json(include: { user: { only: %i[id username] } }).to_json
   end
-  
+
   get '/latest' do
     blogs = Blog.all.includes(:user).order(created_at: :desc)
     blogs.each { |blog| blog.user.username.capitalize! }
-    blogs_json = blogs.as_json(include: { user: { only: [:id, :username] } }).to_json
+    blogs_json = blogs.as_json(include: { user: { only: %i[id username] } }).to_json
   end
-  
+
   get '/featured' do
     blogs = Blog.all.includes(:user).limit(3)
     blogs.each { |blog| blog.user.username.capitalize! }
-    blogs_json = blogs.as_json(include: { user: { only: [:id, :username] } }).to_json
+    blogs_json = blogs.as_json(include: { user: { only: %i[id username] } }).to_json
   end
   get '/blogs/:id' do
     blog = Blog.find(params[:id])
@@ -64,12 +65,25 @@ class ApplicationController < Sinatra::Base
     user_id = params[:id]
     blogs = Blog.includes(:user).where(user_id: user_id)
     blogs.each { |blog| blog.user.username.capitalize! }
-    blogs_json = blogs.as_json(include: { user: { only: [:id, :username] } }).to_json
+    blogs_json = blogs.as_json(include: { user: { only: %i[id username] } }).to_json
   end
+
+  get '/fullblogs' do
+    blogs = Blog.all.includes(:user, :comments)
+  
+    blog_json = blogs.as_json(include: { user: { only: %i[id username] }, comments: {} })
+    blog_json.each do |blog|
+      blog['user']['username'].capitalize!
+    end
+  
+    blog_json.to_json
+  end
+  
+  
   delete '/blogs/:id' do
     blog = Blog.find(params[:id])
     blog.destroy
-    response = { message: 'blog deleted successfully'}
+    response = { message: 'blog deleted successfully' }
     response.to_json
   end
   patch '/blogs/:id' do
@@ -78,20 +92,26 @@ class ApplicationController < Sinatra::Base
     blog.save
     blog.to_json
   end
-
-  # post '/blogs' do
-  #   new_blog= Blog.create(title: params[:title], body: params[:body])
-  #   new_blog.to_json
-  # end
-  # patch '/blogs/:id' do
-  #   blog= blog.find(params[:id])
-  #   blog.update(username: params[:username], body: params[:body])
-  #   blog.save
-  #   blog.to_json
-  # end
-  # delete '/blogs/:id' do
-  #   blog= blog.find(params[:id])
-  #   blog.destroy
-  #   blog.to_json
-  # end
+  # routes for comments
+  post '/comments' do
+    comment = Comment.create(body: params[:body], user_id: params[:user_id], blog_id: params[:blog_id])
+    response = { message: 'comment added successfully' }
+    response.to_json
+  end
+  get '/comments' do
+    comments = Comment.all
+    comments.to_json
+  end
+  patch '/comments/:id' do
+    comment = Comment.find(params[:id])
+    comment.update(body: params[:body])
+    comment.save
+    comment.to_json
+  end
+  delete '/comments/:id' do
+    comment = Comment.find(params[:id])
+    comment.destroy
+    response = { message: 'blog deleted successfully' }
+    response.to_json
+  end
 end
