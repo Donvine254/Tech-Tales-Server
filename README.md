@@ -6,6 +6,8 @@ This project is a simple school blog for software developers students and senior
 
 You can use this api in with the front-end tech-tales available here [see repo](https://github.com/Donvine254/Tech-Tales-Client)
 
+View the deployed frontendsite here [techtales.vercel.app](https://techtales.vercel.app/)
+
 # **Technologies Used in the API**
 
 * ***Ruby***
@@ -30,6 +32,7 @@ shotgun or rake server
 #This will run your server on port
 [http://localhost:9292](http://localhost:9292).
 ```
+
 # Relationships within Database
 ## User
 * has_many :comments
