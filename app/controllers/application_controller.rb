@@ -53,7 +53,7 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/featured' do
-    blogs = Blog.all.includes(:user).limit(3)
+    blogs = Blog.all.includes(:user).limit(4)
     blogs.each { |blog| blog.user.username.capitalize! }
     blogs_json = blogs.as_json(include: { user: { only: %i[id username] } }).to_json
   end
@@ -78,34 +78,7 @@ class ApplicationController < Sinatra::Base
 
     blog_json.to_json
   end
-  # post '/currentblog' do
-  #   slug = params[:slug]
-  #   blog = Blog.find_by(slug: slug)
-  #   if blog
-  #     blog.to_json
-  #   else
-  #     status 404
-  #     response_data = { error: 'Blog not found.' }
-  #     response_data.to_json
-  #   end
-  # end
-
-  post '/currentblog' do
-    slug = params[:slug]
-    blog = Blog.includes(:user, :comments).find_by(slug: slug)
   
-    if blog
-      blog_json = blog.as_json(include: { user: { only: %i[id username] }, comments: {} })
-      blog_json['user']['username'].capitalize!
-      blog_json.to_json
-    else
-      status 404
-      response_data = { error: 'Blog not found.' }
-      response_data.to_json
-    end
-  end
-  
-
   delete '/blogs/:id' do
     blog = Blog.find(params[:id])
     blog.destroy
