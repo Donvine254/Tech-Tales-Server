@@ -95,13 +95,39 @@ class ApplicationController < Sinatra::Base
   # routes for comments
   post '/comments' do
     comment = Comment.create(body: params[:body], user_id: params[:user_id], blog_id: params[:blog_id])
-    response = { message: 'comment added successfully' }
-    response.to_json
+    comment_with_user = {
+      id: comment.id,
+      body: comment.body,
+      user_id: comment.user.id,
+      username: comment.user.username,
+      created_at: comment.created_at
+    }
+    { comment: comment_with_user }.to_json
   end
   get '/comments' do
     comments = Comment.all
     comments.to_json
   end
+# get'/comments/blogs/:id' do
+#  blog = Blog.find(params [:id])
+#  blog.comments.includes(:user)
+#  blog.to_json
+# end
+get '/comments/blogs/:id' do
+  blog = Blog.find(params[:id])
+  comments = blog.comments.includes(:user) # Eager load user association
+  comments_with_users = comments.map do |comment|
+    {
+      id: comment.id,
+      body: comment.body,
+      user_id: comment.user.id,
+      username: comment.user.username,
+      created_at: comment.created_at,
+    }
+  end
+  { comments: comments_with_users }.to_json
+end
+
   patch '/comments/:id' do
     comment = Comment.find(params[:id])
     comment.update(body: params[:body])
