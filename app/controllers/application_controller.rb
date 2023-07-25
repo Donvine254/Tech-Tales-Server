@@ -70,16 +70,42 @@ class ApplicationController < Sinatra::Base
 
   get '/fullblogs' do
     blogs = Blog.all.includes(:user, :comments)
-  
+
     blog_json = blogs.as_json(include: { user: { only: %i[id username] }, comments: {} })
     blog_json.each do |blog|
       blog['user']['username'].capitalize!
     end
-  
+
     blog_json.to_json
   end
+  # post '/currentblog' do
+  #   slug = params[:slug]
+  #   blog = Blog.find_by(slug: slug)
+  #   if blog
+  #     blog.to_json
+  #   else
+  #     status 404
+  #     response_data = { error: 'Blog not found.' }
+  #     response_data.to_json
+  #   end
+  # end
+
+  post '/currentblog' do
+    slug = params[:slug]
+    blog = Blog.includes(:user, :comments).find_by(slug: slug)
   
+    if blog
+      blog_json = blog.as_json(include: { user: { only: %i[id username] }, comments: {} })
+      blog_json['user']['username'].capitalize!
+      blog_json.to_json
+    else
+      status 404
+      response_data = { error: 'Blog not found.' }
+      response_data.to_json
+    end
+  end
   
+
   delete '/blogs/:id' do
     blog = Blog.find(params[:id])
     blog.destroy
@@ -108,25 +134,20 @@ class ApplicationController < Sinatra::Base
     comments = Comment.all
     comments.to_json
   end
-# get'/comments/blogs/:id' do
-#  blog = Blog.find(params [:id])
-#  blog.comments.includes(:user)
-#  blog.to_json
-# end
-get '/comments/blogs/:id' do
-  blog = Blog.find(params[:id])
-  comments = blog.comments.includes(:user) # Eager load user association
-  comments_with_users = comments.map do |comment|
-    {
-      id: comment.id,
-      body: comment.body,
-      user_id: comment.user.id,
-      username: comment.user.username,
-      created_at: comment.created_at,
-    }
+  get '/comments/blogs/:id' do
+    blog = Blog.find(params[:id])
+    comments = blog.comments.includes(:user) # Eager load user association
+    comments_with_users = comments.map do |comment|
+      {
+        id: comment.id,
+        body: comment.body,
+        user_id: comment.user.id,
+        username: comment.user.username,
+        created_at: comment.created_at
+      }
+    end
+    { comments: comments_with_users }.to_json
   end
-  { comments: comments_with_users }.to_json
-end
 
   patch '/comments/:id' do
     comment = Comment.find(params[:id])
