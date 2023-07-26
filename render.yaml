@@ -1,15 +1,16 @@
 databases:
- -name:sqlite3
+ -name: sqlite3
 services:
-  -type:web
-  name:tech_tales_backend
-  env:ruby
-  repo:https://github.com/Donvine254/Tech-Tales-Server
-buildCommand: "bin/render-build.sh"
-startCommand: "bundle exec ruby bin/run.rb"
+  -type: web
+  name: tech_tales_backend
+  env: ruby
+  repo: https://github.com/Donvine254/Tech-Tales-Server
+  buildCommand: "bin/render-build.sh"
+  startCommand: "bundle exec ruby bin/run.rb"
 - type: worker
     name: queue
     runtime: docker
+    env: ruby
 domains:
       - techtalesapi.render.com
       - techtales-server.render.com
