@@ -34,11 +34,17 @@ gem "sqlite3", "~> 1.4"
 # Require all files in a folder
 gem "require_all", "~> 3.0"
 #shotgun for running server
-gem 'shotgun', '~> 0.9.2'
+
+#these gems will be used when running the application in production
+group :production do
+  gem 'pg', '~> 1.5', '>= 1.5.2'
+  gem 'puma', '~> 6.3'
+end
 
 # These gems will only be used when we are running the application locally
 group :development do
   gem "pry", "~> 0.14.1"
+  gem 'shotgun', '~> 0.9.2'
 
   # Automatically reload when there are changes
   # https://github.com/alexch/rerun

@@ -6,4 +6,4 @@ def run_command(command)
   
  
   run_command('rake db:migrate')
-  run_command('rake server')
+  run_command('puma')
