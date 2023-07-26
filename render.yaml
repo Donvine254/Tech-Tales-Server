@@ -10,7 +10,6 @@ services:
       maxInstances: 3
       targetMemoryPercent: 60 
       targetCPUPercent: 60
-  buildCommand: bin/render-build.sh
 - type: worker
     name: queue
     runtime: docker
