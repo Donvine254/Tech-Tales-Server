@@ -4,6 +4,6 @@ def run_command(command)
     system(command)
   end
   
- 
-  run_command('rake db:migrate')
-  run_command('puma')
+  run_command('bundle install')
+  run_command('bundle exec rake db:migrate')
+  run_command('bundle exec puma')
