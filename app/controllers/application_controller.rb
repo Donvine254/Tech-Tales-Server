@@ -25,7 +25,7 @@ class ApplicationController < Sinatra::Base
       response_data.to_json
     end
   end
-  # register new user
+  # register new user into database
   post '/user' do
     user = User.create(username: params[:username], password: params[:password], email: params[:email])
     response = { message: 'user created successfully' }
