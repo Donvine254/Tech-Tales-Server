@@ -109,7 +109,7 @@ class ApplicationController < Sinatra::Base
   end
   get '/comments/blogs/:id' do
     blog = Blog.find(params[:id])
-    comments = blog.comments.includes(:user) # Eager load user association
+    comments = blog.comments.includes(:user) 
     comments_with_users = comments.map do |comment|
       {
         id: comment.id,

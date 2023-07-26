@@ -36,19 +36,15 @@ shotgun or rake server
 # Relationships within Database
 ## User
 * has_many :comments
-* has_many :authored_blogs, class_name: 'Blog', foreign_key: 'user_id'
-* has_many :favorite_blogs, through: :favorites, source: :blog
+* has_many :blogs
 ## Blog
-* belongs_to :author, class_name: 'User'
+* belongs_to : user
 * has_many :comments
-* has_many :favorites
+
 ## Comments
-* belongs_to :author
-* belongs_to :user
-* belongs_to :blog , through :user
-## Favorite
 * belongs_to :user
 * belongs_to :blog
+
 # Example Calls You Can Make With API
 * **CREATE user, blog and comments**
 * **GET/RETRIEVE all blogs and comments**
