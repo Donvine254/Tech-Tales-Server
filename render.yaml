@@ -5,18 +5,14 @@ services:
   name:sinatra
   env:ruby
   repo:https://github.com/Donvine254/Tech-Tales-Server
-  buildCommand: ./bin/render-build.sh
-  startCommand: bundle exec rake server
+  buildCommand: bundle install
+  startCommand: bundle exec ruby run.rb
 scaling:
       minInstances: 1
       maxInstances: 3
 - type: worker
     name: queue
     runtime: docker
-routes:
-      - type: redirect
-        source: /old
-        destination: /new
-      - type: rewrite
-        source: /a/*
-        destination: /a
+domains:
+      - techtalesapi.render.com
+      - techtales-server.render.com
