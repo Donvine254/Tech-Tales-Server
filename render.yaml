@@ -13,3 +13,15 @@ startCommand: bundle exec ruby run.rb
 domains:
       - techtalesapi.render.com
       - techtales-server.render.com
+ envVars:
+      - key: STRIPE_API_KEY
+        value: Z2V0IG91dHRhIGhlcmUhCg
+      - key: DB_URL
+        fromDatabase:
+          name: elephant
+          property: connectionString
+      - key: MINIO_ROOT_PASSWORD
+        fromService:
+          type: pserv
+          name: minio
+          envVarKey: MINIO_ROOT_PASSWORD
