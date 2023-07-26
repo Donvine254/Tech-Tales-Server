@@ -1,0 +1,10 @@
+databases:
+ -name:sqlite3
+  ipAllowList: []
+services:
+  -type:web
+  name:rails
+  env:ruby
+  buildCommand: './bin/render-build.sh'
+  startCommand: bundle exec rake server
+  
