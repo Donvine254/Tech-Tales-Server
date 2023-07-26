@@ -1,7 +1,0 @@
-databases:
- -name: postgresql
-services:
-  -type: web
-  name: tech_tales_backend
-  env: ruby
-  repo: https://github.com/Donvine254/Tech-Tales-Server
