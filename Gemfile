@@ -37,7 +37,7 @@ gem "require_all", "~> 3.0"
 
 #these gems will be used when running the application in production
 group :production do
-  gem 'pg', '~> 1.5', '>= 1.5.2'
+  # gem 'pg', '~> 1.5', '>= 1.5.2'
   gem 'puma', '~> 6.3'
 end
 
