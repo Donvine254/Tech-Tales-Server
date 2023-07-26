@@ -5,8 +5,8 @@ services:
   name: tech_tales_backend
   env: ruby
   repo: https://github.com/Donvine254/Tech-Tales-Server
-  buildCommand: "bin/render-build.sh"
-  startCommand: "bundle exec ruby bin/run.rb"
+  buildCommand: bin/render-build.sh
+  startCommand: bundle exec ruby main.rb
 - type: worker
     name: queue
     runtime: docker
