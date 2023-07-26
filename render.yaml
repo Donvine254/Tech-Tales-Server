@@ -5,8 +5,8 @@ services:
   name:sinatra
   env:ruby
   repo:https://github.com/Donvine254/Tech-Tales-Server
-  buildCommand: bundle install
-  startCommand: bundle exec ruby run.rb
+buildCommand: bundle install
+startCommand: bundle exec ruby run.rb
 scaling:
       minInstances: 1
       maxInstances: 3
