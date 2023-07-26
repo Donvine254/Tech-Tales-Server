@@ -11,7 +11,6 @@ services:
       targetMemoryPercent: 60 
       targetCPUPercent: 60
   buildCommand: bin/render-build.sh
-  startCommand: bundle exec ruby main.rb 
 - type: worker
     name: queue
     runtime: docker
