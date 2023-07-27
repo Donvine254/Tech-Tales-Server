@@ -145,7 +145,7 @@ class ApplicationController < Sinatra::Base
       created_at: comment.created_at
     }
   
-    { comment: comment_with_user }.to_json
+    comment_with_user.to_json
   end
   delete '/comments/:id' do
     comment = Comment.find(params[:id])
