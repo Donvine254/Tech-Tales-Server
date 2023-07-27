@@ -15,4 +15,7 @@ class Blog < ActiveRecord::Base
     blog_title = blog_title.gsub(/[^\w-]/, '-')
     blog_title.gsub(/-+/, '-')
   end
+  def comments_count
+    comments.count
+  end
 end

@@ -52,11 +52,20 @@ class ApplicationController < Sinatra::Base
     blogs_json = blogs.as_json(include: { user: { only: %i[id username] } }).to_json
   end
 
+  # get '/featured' do
+  #   blogs = Blog.all.includes(:user).limit(4).order(title: :desc)
+  #   blogs.each { |blog| blog.user.username.capitalize! }
+  #   blogs_json = blogs.as_json(include: { user: { only: %i[id username] } }).to_json
+  # end
   get '/featured' do
     blogs = Blog.all.includes(:user).limit(4)
+    blogs = blogs.sort_by { |blog| -blog.comments_count }
+  
     blogs.each { |blog| blog.user.username.capitalize! }
+  
     blogs_json = blogs.as_json(include: { user: { only: %i[id username] } }).to_json
   end
+
   get '/blogs/:id' do
     blog = Blog.find(params[:id])
     blog.to_json
