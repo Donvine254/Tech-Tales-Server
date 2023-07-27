@@ -135,7 +135,7 @@ class ApplicationController < Sinatra::Base
     comment = Comment.find(params[:id])
     comment.update(body: params[:body])
     comment.save
-    comment.to_json
+    comment.includes(:user).to_json
   end
   delete '/comments/:id' do
     comment = Comment.find(params[:id])
