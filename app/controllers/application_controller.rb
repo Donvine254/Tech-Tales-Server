@@ -135,6 +135,7 @@ class ApplicationController < Sinatra::Base
     comment = Comment.find(params[:id])
     comment.update(body: params[:body])
     comment.save
+    comment.reload
     # comment.includes(:user).to_json
     comment_with_user = {
       id: comment.id,
