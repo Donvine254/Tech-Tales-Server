@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
+  wrap_parameters format: []
   def login
     @user = User.find_by_email(params[:email])
     
@@ -41,9 +42,5 @@ class UsersController < ApplicationController
 
   def user_params
     params.permit(:username, :email, :password)
-  end
-
-  def render_pizza_details(pizzas, status)
-    render json: pizzas.as_json(except: %i[created_at updated_at]), status: status
   end
 end
