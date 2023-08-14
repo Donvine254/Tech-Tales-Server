@@ -1,12 +1,13 @@
 class UsersController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
-  def index
-    render json: User.all, only: %i[id username], status: :ok
-  end
-
-  def show
-    user = find_user
-    render json: user, only: %i[id username], status: :ok
+  def login
+    @user = User.find_by_email(params[:email])
+    
+    if @user && @user.password== params[:password]
+      render json: @user, only: %i[id username], status: :found
+    else
+      render json: {}, status: :unauthorized
+    end
   end
 
   def create
