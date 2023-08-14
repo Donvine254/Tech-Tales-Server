@@ -72,6 +72,7 @@ class BlogsController < ApplicationController
       title: blog.title,
       body: blog.body,
       slug: blog.slug,
+      image: blog.image,
       created_at: blog.created_at_date,
       user_id: blog.user_id,
       author: blog.user.username.capitalize!,
