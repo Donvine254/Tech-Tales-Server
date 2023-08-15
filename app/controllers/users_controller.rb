@@ -4,13 +4,17 @@ class UsersController < ApplicationController
   def login
     @user = User.find_by_email(params[:email])
     
-    if @user && @user.password== params[:password]
-      render json: @user, only: %i[id username], status: :found
+    if @user && @user.password == params[:password]
+      user_data = {
+        id: @user.id,
+        username: @user.username.capitalize
+      }
+      render json: user_data, status: :found
     else
       render json: {}, status: :unauthorized
     end
   end
-
+  
   def create
     user = User.create!(user_params)
     render json: { message: 'User created successfully' }, status: :created
