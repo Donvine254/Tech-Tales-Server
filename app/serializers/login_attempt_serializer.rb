@@ -1,3 +1,3 @@
-class LoginAttemptSerializer < ActiveModel::Serializer
-  attributes :id, :email
-end
+# class LoginAttemptSerializer < ActiveModel::Serializer
+#   attributes :id, :email
+# end

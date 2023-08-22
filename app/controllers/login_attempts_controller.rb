@@ -1,5 +1,5 @@
-class LoginAttemptsController < ApplicationController
-    def index 
-        render json: LoginAttempt.all, status: :ok
-    end
-end
+# class LoginAttemptsController < ApplicationController
+#     def index 
+#         render json: LoginAttempt.all, status: :ok
+#     end
+# end

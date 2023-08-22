@@ -30,6 +30,6 @@ group :development do
   gem 'listen', '~> 3.3'
 end
 
-# gem 'rack-attack', '~> 6.7'
+gem 'rack-attack', '~> 6.7'
 gem 'active_model_serializers'
 gem 'bcrypt', '~> 3.1', '>= 3.1.19'
