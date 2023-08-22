@@ -1,2 +1,0 @@
-class Destroy < ApplicationRecord
-end

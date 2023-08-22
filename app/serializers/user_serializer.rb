@@ -1,6 +1,6 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :capitalized
-  def capitalized
-    object.username.capitalize!
+  attributes :id, :username, :active
+  def username
+    object.username.capitalize
   end
 end
