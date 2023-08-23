@@ -1,7 +1,6 @@
 class SessionsController < ApplicationController
     rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
-    # require "rack/attack"
-    # before_action :throttle, only: :create
+
     def create
       @user = User.find_by(email: params[:email])
   
@@ -34,13 +33,6 @@ class SessionsController < ApplicationController
     #       LoginAttempt.create(email: user_email)
     #     end
     #   end
-    # def throttle 
-    #   Rack::Attack.throttle('sessions/email', limit: 3, period: 60.seconds) do |req|
-    #     if req.path == '/login' && req.post?
-    #       req.params['email']
-    #     end
-    #   end
-    # end
   
   end
   
