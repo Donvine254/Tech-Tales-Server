@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
   rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity
-
+  before_action :authenticate_user, except: [:create]
   wrap_parameters format: []
   def index
     render json: User.all, status: :ok
@@ -24,7 +24,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    user = User.find(params[:id])
+    user = find_user
     user.update_column(:active, false)
     render json: { message: 'User deleted successfully' }, status: :ok
   end
@@ -49,5 +49,18 @@ class UsersController < ApplicationController
 
   def user_update_params
     params.permit(:username, :password)
+  end
+
+  def authenticate_user
+    user = User.find_by(username: params[:name]) 
+    @current_user = User.find_by(id: session[:user_id]) || nil
+    if @current_user
+     #render whatever is requested
+    elsif user&.authenticate(params[:password])
+    # render whatever is being requested
+    # add an elseif to check whether the session_cookie exists
+    else
+      render json: { error: 'action forbidden' }, status: :forbidden
+    end
   end
 end
