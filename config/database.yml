@@ -91,5 +91,6 @@ production:
   password: <%= ENV['PG_PASSWORD'] %>
   host: <%= ENV["PG_HOST"] %>
   database: <%= ENV["PG_DATABASE"] %>
-
+  prepared_statements: false
+  advisory_locks: false
 
