@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :comments
   resources :blogs
-  resources :users, except: [:show, :index]
+  resources :users
   post "login", to: "users#login"
   get "blogs/user/:id", to: "blogs#userblog"
   get "latest", to: "blogs#latest"

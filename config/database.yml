@@ -93,4 +93,5 @@ production:
   database: <%= ENV["PG_DATABASE"] %>
   prepared_statements: false
   advisory_locks: false
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
