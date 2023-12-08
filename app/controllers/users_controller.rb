@@ -20,7 +20,8 @@ class UsersController < ApplicationController
   end
 
   def create
-    user = User.create!(user_params)
+    user_params_with_avatar = user_params.merge(picture: generate_avatar_url(params[:username]))
+    user = User.create!(user_params_with_avatar)
     render json: user, status: :created
   rescue ActiveRecord::RecordInvalid => e
     render json: { errors: e.record.errors.full_messages }, status: :unprocessable_entity
@@ -55,4 +56,7 @@ class UsersController < ApplicationController
   def user_params
     params.permit(:username, :email, :password)
   end
+  def generate_avatar_url(username)
+  "https://ui-avatars.com/api/?name=#{username}"
+end
 end
