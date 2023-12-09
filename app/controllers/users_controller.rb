@@ -57,6 +57,6 @@ class UsersController < ApplicationController
     params.permit(:username, :email, :password)
   end
   def generate_avatar_url(username)
-  "https://ui-avatars.com/api/?name=#{username}"
+  "https://ui-avatars.com/api/?background=random&name=#{username}"
 end
 end
