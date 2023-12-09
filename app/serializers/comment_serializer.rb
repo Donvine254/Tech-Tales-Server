@@ -1,5 +1,5 @@
 class CommentSerializer < ActiveModel::Serializer
-  attributes :id, :body, :created_at_date, :author, :blog, :blog_id, :user_id
+  attributes :id, :body, :created_at_date, :author, :blog, :blog_id, :user_id, :user_avatar
 
   def author
     object.user.username.capitalize
@@ -15,6 +15,9 @@ class CommentSerializer < ActiveModel::Serializer
 
   def user_id
     object.user_id
+  end
+  def user_avatar
+    object.user.picture
   end
 
   def created_at_date
