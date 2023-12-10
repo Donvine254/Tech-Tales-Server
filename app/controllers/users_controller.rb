@@ -33,6 +33,16 @@ class UsersController < ApplicationController
     render json: user, status: :accepted
   end
 
+  def reset
+    user = User.find_by_email(params[:email])
+    if user
+      user.update!(user_params)
+      render json: user, status: :ok
+    else
+      render_not_found_response
+    end
+  end
+
   def destroy
     user = find_user
     user.destroy
@@ -56,7 +66,8 @@ class UsersController < ApplicationController
   def user_params
     params.permit(:username, :email, :password)
   end
+
   def generate_avatar_url(username)
-  "https://ui-avatars.com/api/?background=random&name=#{username}"
-end
+    "https://ui-avatars.com/api/?background=random&name=#{username}"
+  end
 end
