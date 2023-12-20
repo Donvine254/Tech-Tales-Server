@@ -64,7 +64,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.permit(:username, :email, :password)
+    params.permit(:username, :email, :password, :picture)
   end
 
   def generate_avatar_url(username)
