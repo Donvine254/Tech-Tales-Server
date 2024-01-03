@@ -1,5 +1,5 @@
 class BlogSerializer < ActiveModel::Serializer
-  attributes :id, :title, :body, :slug, :image, :created_at_date, :author, :user_id, :user_avatar
+  attributes :id, :title, :body, :slug, :image, :created_at_date, :author, :user_id, :user_avatar, :user_bio
   has_many :comments
 
   def created_at_date
@@ -10,6 +10,9 @@ class BlogSerializer < ActiveModel::Serializer
   end
   def user_id
     object.user.id
+  end
+  def user_bio
+    object.user.bio
   end
 def user_avatar
 object.user.picture
