@@ -1,6 +1,15 @@
 class UsersController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
   wrap_parameters format: []
+  def index
+    if params[:email].present?
+      @user = User.find_by_email(params[:email])
+      render json: @user, status: :ok
+    else
+      render_not_found_response
+    end
+  end
+
   def login
     @user = User.find_by_email(params[:email])
     if @user
@@ -20,7 +29,13 @@ class UsersController < ApplicationController
   end
 
   def create
-    user_params_with_avatar = user_params.merge(picture: generate_avatar_url(params[:username]))
+    user_params_with_avatar = user_params
+
+    # Check if the 'picture' key is present in the params object
+    unless user_params_with_avatar.key?(:picture)
+      user_params_with_avatar = user_params_with_avatar.merge(picture: generate_avatar_url(params[:username]))
+    end
+
     user = User.create!(user_params_with_avatar)
     render json: user, status: :created
   rescue ActiveRecord::RecordInvalid => e
