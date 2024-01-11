@@ -6,7 +6,7 @@ class UsersController < ApplicationController
       @user = User.find_by_email(params[:email])
       render json: @user, status: :ok
     else
-      render_not_found_response
+      json: { errors: ['User Not Found'] }, status: 404
     end
   end
 
