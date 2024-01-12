@@ -4,7 +4,11 @@ class UsersController < ApplicationController
   def index
     if params[:email].present?
       @user = User.find_by_email(params[:email])
-      render json: @user, status: :ok
+      if @user
+        render json: @user, status: :ok
+      else
+        render_not_found_response
+      end
     else
       render_not_found_response
     end
