@@ -79,11 +79,11 @@ class UsersController < ApplicationController
   end
 
   def find_user
-    user = User.find(params[:id])
+    User.find(params[:id])
   end
 
   def user_params
-    params.permit(:username, :email, :password, :picture, :bio)
+    params.permit(:username, :email, :password, :picture, :bio, :role)
   end
 
   def generate_avatar_url(username)

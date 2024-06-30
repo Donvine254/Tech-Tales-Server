@@ -1,5 +1,5 @@
 class BlogSerializer < ActiveModel::Serializer
-  attributes :id, :title, :body, :slug, :image, :created_at_date, :author, :user_id, :user_avatar, :user_bio
+  attributes :id, :title, :body, :slug, :image, :created_at_date, :author, :tags, :user_id, :user_avatar, :user_bio
   has_many :comments
 
   def created_at_date

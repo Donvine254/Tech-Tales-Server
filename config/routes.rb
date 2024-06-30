@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :social_media
   resources :comments
   resources :blogs
   resources :users
