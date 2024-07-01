@@ -46,6 +46,6 @@ class SocialMediaController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def social_medium_params
-      params.require(:social_medium).permit(:platform, :url, :user_id)
+      params.permit(:platform, :url, :user_id)
     end
 end

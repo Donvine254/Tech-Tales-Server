@@ -10,7 +10,7 @@ class UsersController < ApplicationController
         render_not_found_response
       end
     else
-     render json: { errors: ['User Not Found'] }, status: 404
+      render json: { errors: ['User Not Found'] }, status: 404
     end
   end
 
